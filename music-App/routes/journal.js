@@ -1,5 +1,5 @@
 import express from 'express'
-import { addJournalEntry } from '../models/journalEntry.js'
+import { addJournalEntry,getJournalEntries } from '../models/journalEntry.js'
 
 const router = express.Router()
 
@@ -12,5 +12,14 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 })
+
+router.get('/', async (req, res) => {
+  try {
+    const entries = await getJournalEntries()
+    res.status(200).json(entries)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+});
 
 export default router

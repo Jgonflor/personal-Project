@@ -1,9 +1,33 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+
 import './App.css'
+function extractYouTubeId(url) {
+  const match = url.match(/(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([^&\n?#]+)/);
+  return match ? match[1] : null;
+}
+
 
 function App() {
+
+  // const [youtubeInput, setYoutubeInput] = useState('');
+  const [videoId, setVideoId] = useState(null);
+
+    const handleYoutube= async (e) => {
+    e.preventDefault();
+    const url = e.target.youtube.value;
+    const id = extractYouTubeId(url);
+    if (id) {
+      setVideoId(id);
+      console.log('YouTube ID:', id);
+    } else {
+      alert('Invalid YouTube URL');
+    }
+  
+  }
+
+
 
   
   const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
@@ -13,11 +37,29 @@ function App() {
       loginWithRedirect();
     }
   }, [isLoading, isAuthenticated, loginWithRedirect]);
+
+  const [entries, setEntries] = useState([]);
+  useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+       const response = await fetch('http://localhost:3001/api/journal');
+        const data = await response.json();
+        setEntries(data);
+      } catch (error) {
+        console.error('Error fetching entries:', error);
+      }
+    };
+    fetchEntries();
+  }, []);
  
+
+  
   const songEntry = async (e) => {
   e.preventDefault();
   const song = e.target[0].value;
   const journal = e.target[1].value;
+  const youtube = e.target.youtube.value;
+
 
   if (song && journal) {
     const entry = {
@@ -25,7 +67,9 @@ function App() {
       journal: journal,
       createdAt: new Date(),
       email: user?.email,
+      youtube: youtube
     };
+
 
     try {
       const response = await fetch('http://localhost:3001/api/journal', {
@@ -55,12 +99,51 @@ function App() {
     <h2 className='subheader'>Here is a beta version of how it may look like</h2>
      <h1 className = 'MONGO'> Mongo Test Entries </h1>
     <form className='form' onSubmit={songEntry}>
+      <label className='label'>YouTube Link </label>
       <label className='label'>Song Entry</label>
       <input type="text" className='inputSong' />
       <label className='label'> Journal Thoughts</label>
       <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
       <button type="submit" className='button'>Create Song Entry</button>
     </form>
+
+   
+
+    <button className='getEntries' onClick={() => window.location.reload()}> get Entries</button>
+
+    <div className="entry-list">
+      {entries.length === 0 ? (
+        <p>No entries yet.</p>
+      ) : (
+        [...entries].reverse().map((entry) => (
+          <div key={entry._id} className="entry">
+            <strong>Song:</strong> {entry.song} <br />
+            <strong>Journal:</strong> {entry.journal} <br />
+            <strong>Date:</strong> {new Date(entry.createdAt).toLocaleString()}
+            <hr />
+          </div>
+        ))
+      )}
+    </div>
+
+     <form className='youtube' onSubmit={handleYoutube}>
+      <label className='label'>YouTube Video ID</label>
+      <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" />
+      <button type="submit" className='button'>Add YouTube Video</button>
+    </form>
+
+   {videoId && (
+  <iframe
+    className='video'
+    width="50%"
+    height="50%"
+    src={`https://www.youtube.com/embed/${videoId}`}
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  ></iframe>
+)}
+
+
     </>
   )
 }

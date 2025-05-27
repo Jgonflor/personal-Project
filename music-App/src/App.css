@@ -28,10 +28,32 @@
   right: 7.5vw;
   font-size: 2rem;
   margin-bottom: 2rem;
+  text-decoration: underline;
   color: #FFE6AF
 }
 
 .inputJournal {
   display: flex;
   
+}
+.entry-list {
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  top: 7.5vh;
+  right: 10vw;
+  font-size: 1rem;
+  margin-bottom: 10rem;
+  color: #FFE6AF
+}
+
+.youtube
+{
+  margin-top: 10vh;
+}
+
+.video {
+  width: 50vw;
+  height: 50vh;
+  border: none;
 }
