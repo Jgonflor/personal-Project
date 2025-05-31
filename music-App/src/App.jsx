@@ -13,6 +13,7 @@ function App() {
 
   // const [youtubeInput, setYoutubeInput] = useState('');
   const [videoId, setVideoId] = useState(null);
+  const [lyrics, setLyrics] = useState(null);
 
     const handleYoutube= async (e) => {
     e.preventDefault();
@@ -24,8 +25,30 @@ function App() {
     } else {
       alert('Invalid YouTube URL');
     }
+
+    setVideos(prev => [...prev, { id }]);
+    e.target.reset();
   
   }
+
+   const loadLyrics = async (artist,song) => {
+    
+    try {
+      const response = await fetch(
+        `https://api.lyrics.ovh/v1/${artist}/${song}`
+      );
+      const data = await response.json();
+      if (data.lyrics) {
+        setLyrics(data.lyrics);
+        console.log('Lyrics:', data.lyrics);
+      } else {
+        setError('Lyrics not found');
+      }
+    } catch (e) {
+      console.error(e);
+      setError('Error fetching lyrics');
+    }
+  };
 
 
 
@@ -56,14 +79,17 @@ function App() {
   
   const songEntry = async (e) => {
   e.preventDefault();
-  const song = e.target[0].value;
-  const journal = e.target[1].value;
-  const youtube = e.target.youtube.value;
+  const youtube = e.target[0].value;
+  const song = e.target[1].value;
+  const artist = e.target[2].value;
+  const journal = e.target[3].value;
+  
 
 
   if (song && journal) {
     const entry = {
       song: song,
+      artist: artist,
       journal: journal,
       createdAt: new Date(),
       email: user?.email,
@@ -93,15 +119,23 @@ function App() {
     <>
     <title>musicApp</title>
     <h1 className = "header">
-      MusicPlayer v1.0
+      MusicPlayer v1.1
       
     </h1>
     <h2 className='subheader'>Here is a beta version of how it may look like</h2>
      <h1 className = 'MONGO'> Mongo Test Entries </h1>
+     <div>
+
+    
     <form className='form' onSubmit={songEntry}>
       <label className='label'>YouTube Link </label>
-      <label className='label'>Song Entry</label>
+      <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" onChange={e => setVideoId(extractYouTubeId(e.target.value))} />
+      <label className='label'>Song Name</label>
       <input type="text" className='inputSong' />
+
+      <label className='label'>Artist Name</label>
+      <input type="text" className='input Artist' />
+      
       <label className='label'> Journal Thoughts</label>
       <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
       <button type="submit" className='button'>Create Song Entry</button>
@@ -110,6 +144,7 @@ function App() {
    
 
     <button className='getEntries' onClick={() => window.location.reload()}> get Entries</button>
+    </div>
 
     <div className="entry-list">
       {entries.length === 0 ? (
@@ -118,30 +153,39 @@ function App() {
         [...entries].reverse().map((entry) => (
           <div key={entry._id} className="entry">
             <strong>Song:</strong> {entry.song} <br />
-            <strong>Journal:</strong> {entry.journal} <br />
-            <strong>Date:</strong> {new Date(entry.createdAt).toLocaleString()}
+            <strong>Artist:</strong> {entry.artist} <br />
+            <strong >Journal:</strong> <div className='journaling'>{entry.journal} </div><br />
+            <strong>Date:</strong> {new Date(entry.createdAt).toLocaleString()}<br />
+            <button className='changeToMusic' onClick={() => (setVideoId(extractYouTubeId(entry.youtube)),loadLyrics(entry.artist,entry.song))}>video and lyrics</button>
+
+
+
+            
             <hr />
           </div>
         ))
       )}
     </div>
 
-     <form className='youtube' onSubmit={handleYoutube}>
+     {/* <form className='youtube' onSubmit={handleYoutube}>
       <label className='label'>YouTube Video ID</label>
       <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" />
       <button type="submit" className='button'>Add YouTube Video</button>
-    </form>
+    </form> */}
 
    {videoId && (
   <iframe
     className='video'
     width="50%"
     height="50%"
-    src={`https://www.youtube.com/embed/${videoId}`}
+    src={`https://www.youtube-nocookie.com/embed/${videoId}`}
     allow="autoplay; encrypted-media"
     allowFullScreen
   ></iframe>
 )}
+<div className='lyricsContainer'>
+<pre className='lyrics'>{lyrics}</pre>
+</div>
 
 
     </>

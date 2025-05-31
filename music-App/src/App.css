@@ -33,18 +33,33 @@
 }
 
 .inputJournal {
-  display: flex;
+  overflow-y: scroll; 
+    height:20vh;
+    width: 40vw;
   
+}
+.getEntrie{
+  position: relative;
 }
 .entry-list {
   list-style-type: none;
+  overflow-y: scroll; 
+  height:90vh;
   padding: 0;
   position: absolute;
   top: 7.5vh;
-  right: 10vw;
+  right: 0vw;
   font-size: 1rem;
   margin-bottom: 10rem;
   color: #FFE6AF
+  
+}
+.journaling
+{
+  display:flex;
+  overflow-y: scroll;
+  height: 20vh;
+  width: 27.5vw;
 }
 
 .youtube
@@ -53,7 +68,21 @@
 }
 
 .video {
-  width: 50vw;
-  height: 50vh;
+  width: 40vw;
+  height: 40vh;
   border: none;
+}
+.lyricsContainer
+{
+  
+
+    overflow-y: scroll; 
+    height:25vh;
+}
+
+.form
+{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
 }
