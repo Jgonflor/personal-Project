@@ -1,5 +1,5 @@
 import express from 'express'
-import { addJournalEntry,getJournalEntries } from '../models/journalEntry.js'
+import { addJournalEntry,getJournalEntries,deleteJournalEntry } from '../models/journalEntry.js'
 
 const router = express.Router()
 
@@ -21,5 +21,19 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 });
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const result = await deleteJournalEntry(id)
+    if (result) {
+      res.status(200).json({ success: true })
+    } else {
+      res.status(404).json({ success: false, error: 'Entry not found' })
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message })
+  }
+})
 
 export default router

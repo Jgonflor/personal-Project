@@ -1,4 +1,5 @@
 import {getDatabase} from './mongoDB.js'
+import { ObjectId } from 'mongodb';
 
 const getCollection = async () => (await getDatabase()).collection('journalEntries')
 
@@ -13,6 +14,13 @@ export async function getJournalEntries() {
   const entries = await collection.find().toArray()
   return entries.map(entry => ({
     ...entry,
-    _id: entry._id.toString() // Convert ObjectId to string for easier handling
+    _id: entry._id.toString() 
   }))
+}
+
+export async function deleteJournalEntry(id) {
+  const collection = await getCollection()
+  const _id = new ObjectId(id) // Convert string ID to ObjectId
+  const result = await collection.deleteOne({ _id })
+  return result.deletedCount > 0 
 }

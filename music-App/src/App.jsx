@@ -62,6 +62,22 @@ function App() {
   }, [isLoading, isAuthenticated, loginWithRedirect]);
 
   const [entries, setEntries] = useState([]);
+  const deleteEntry = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/journal/${id}`, {
+        method: 'DELETE'
+      });
+      const json = await res.json();
+      if (json.success) {
+        setEntries((prev) => prev.filter((e) => e._id !== id));
+      } else {
+        console.error('Delete failed:', json.error);
+      }
+    } catch (err) {
+      console.error('Error deleting entry:', err);
+    }
+  };
+
   useEffect(() => {
     const fetchEntries = async () => {
       try {
@@ -157,7 +173,7 @@ function App() {
             <strong >Journal:</strong> <div className='journaling'>{entry.journal} </div><br />
             <strong>Date:</strong> {new Date(entry.createdAt).toLocaleString()}<br />
             <button className='changeToMusic' onClick={() => (setVideoId(extractYouTubeId(entry.youtube)),loadLyrics(entry.artist,entry.song))}>video and lyrics</button>
-
+          <button className='deleteButton' onClick={() => deleteEntry(entry._id)}>Delete</button>
 
 
             
