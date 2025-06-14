@@ -11,7 +11,7 @@
   left: 0;
   font-size: 2rem;
   margin-bottom: 2rem;
-  color:  #FFE6AF
+  /* color:  #FFE6AF */
 }
 .subheader {
   position: absolute;
@@ -19,7 +19,7 @@
   left: 0;
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  color: #FFE6AF
+  /* color: #FFE6AF */
 }
 
 .MONGO {
@@ -29,7 +29,7 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   text-decoration: underline;
-  color: #FFE6AF
+  /* color: #FFE6AF */
 }
 
 .inputJournal {
@@ -53,22 +53,31 @@
 .entry-list {
   list-style-type: none;
   overflow-y: scroll; 
-  height:90vh;
+  max-height:90vh;
   padding: 0;
   position: absolute;
   top: 7.5vh;
   right: 0vw;
   font-size: 1rem;
   margin-bottom: 10rem;
-  color: #FFE6AF
+  width: 28vw;
+  /* color: #FFE6AF */
   
 }
+.yourComponent{
+  position: absolute;
+  top: 5vh;
+  left: 0;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
 .journaling
 {
   display:flex;
-  overflow-y: scroll;
-  height: 20vh;
-  width: 25vw;
+  overflow-y: auto;
+  max-height: 20vh;
+  
 }
 
 .youtube
@@ -77,13 +86,19 @@
 }
 
 .video {
-  width: 40vw;
+  position: absolute;
+  top: 50vh;
+  left: 0;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  width: 20vw;
   height: 40vh;
   border: none;
 }
 
 .ahhhh {
-  width: 15vw;
+  margin-top: 2vh;
+  width: 28vw;
   height: 30vh;
   align-items: center;
   border: none;
@@ -105,6 +120,13 @@
 
 .lyricsAHHH{
   overflow-y: scroll;
+  overflow-x: hidden;
+
   height: 20vh;
-  width: 15vw;
+  width: 28vw;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  
+  
+
 }

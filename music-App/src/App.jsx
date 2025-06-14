@@ -2,6 +2,26 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 
+import { HexColorPicker } from "react-colorful";
+
+
+
+const ColorWheel = ({ color, setColor }) => {
+  return <HexColorPicker color={color} onChange={setColor} />;
+};
+
+function getOppositeColor(hex) {
+  hex = hex.replace('#', '');
+
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+
+  return luminance > 186 ? '#000000' : '#FFFFFF';
+}
+
 
 import './App.css'
 function extractYouTubeId(url) {
@@ -13,6 +33,9 @@ function extractYouTubeId(url) {
 function App() {
 
   // const [youtubeInput, setYoutubeInput] = useState('');
+  const [color, setColor] = useState(() => {
+    return localStorage.getItem("currentColor") || "#aabbcc";
+  });  const[textColor, setTextColor]= useState("")
   const [videoId, setVideoId] = useState("");
   const [lyrics, setLyrics] = useState("");
   const [songName,   setSongName]   = useState('');
@@ -21,6 +44,7 @@ const [allVideos, setAllVideos] = useState([]);
 
 const [customLyrics, setCustomLyrics] = useState('False');
 const [visibleLyrics, setVisibleLyrics] = useState({});
+const [colorName,setColorName] = useState("");
 
 
     const handleYoutube= async (e) => {
@@ -38,6 +62,14 @@ const [visibleLyrics, setVisibleLyrics] = useState({});
     e.target.reset();
   
   }
+
+  useEffect(() => {
+    localStorage.setItem("currentColor", color);
+    setTextColor(getOppositeColor(color));
+    document.body.style.background = color;
+  }, [color]);
+  
+  
 
   // assume at the top of your component you have:
 // const [visibleLyrics, setVisibleLyrics] = useState({});
@@ -58,29 +90,23 @@ function toggleLyrics(id) {
   });
 }
 
-
-  async function loadLyrics(artist, song) {
+async function loadLyrics(artist, song) {
   try {
-      const apiUrl   = `https://api.vagalume.com.br/v1/lyrics/`
-                   + `${encodeURIComponent(artist)}/`
-                   + `${encodeURIComponent(song)}`;
-  const proxyUrl = `https://corsproxy.io/?` 
-                   + `url=${encodeURIComponent(apiUrl)}`;
-
-    const res  = await fetch(proxyUrl
-    );
+    const apiUrl = `https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(song)}`;
+    const res = await fetch(apiUrl);
     const json = await res.json();
-    // { artist: "...", song: "...", lyrics: "Full lyric text..." }
+
     if (json.lyrics) {
       setLyrics(json.lyrics);
     } else {
       setLyrics('No lyrics found for this song.');
     }
   } catch (err) {
-    console.error('Vagalume error', err);
+    console.error('Lyrics.ovh error:', err);
     setLyrics('Error fetching lyrics. Please try again later.');
   }
 }
+
 
 //    const loadLyrics = async (artist,song) => {
     
@@ -137,6 +163,11 @@ function toggleLyrics(id) {
   };
 
   useEffect(() => {
+    document.body.style.background = color;
+  }, [color]);
+  
+
+  useEffect(() => {
     const fetchEntries = async () => {
       try {
        const response = await fetch('http://localhost:3001/api/journal');
@@ -156,8 +187,9 @@ function toggleLyrics(id) {
   const youtube = e.target[0].value;
   const song = e.target[1].value;
   const artist = e.target[2].value;
-  const journal = e.target[4].value;
-  const ahhLyrics = e.target[3].value;
+  const journal = e.target[5].value;
+  const ahhLyrics = e.target[4].value;
+  const colorName = e.target[3].value;
   
 
 
@@ -169,7 +201,9 @@ function toggleLyrics(id) {
       createdAt: new Date(),
       email: user?.email,
       youtube: youtube,
-      lyrics : ahhLyrics
+      lyrics : ahhLyrics,
+      colorName: colorName,
+      color : color
     };
 
 
@@ -182,6 +216,8 @@ function toggleLyrics(id) {
       const data = await response.json();
       console.log('Entry created with ID:', data.insertedId);
       e.target.reset(); 
+      setLyrics('');  
+      window.location.reload();
     } catch (error) {
       console.error('Error creating entry:', error);
     }
@@ -192,17 +228,28 @@ function toggleLyrics(id) {
 
   return (
     
-    <>
+    <div className='every' style={{ background: color,color: textColor }}>
+    
+
     <title>musicApp</title>
     <h1 className = "header">
       MusicPlayer v1.1
       
     </h1>
-    <h2 className='subheader'>Here is a beta version of how it may look like</h2>
+    <h2 className='subheader' >Here is a beta version of how it may look like</h2>
      <h1 className = 'MONGO'> Mongo Test Entries </h1>
      <div>
 
-    
+     <div className='yourComponent'> 
+        <h1> <ColorWheel color = {color} setColor={setColor} /></h1>
+       
+        
+        
+
+
+
+
+        </div>
     <form className='form' onSubmit={songEntry}>
       <label className='label'>YouTube Link </label>
       <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" onChange={e => setVideoId(extractYouTubeId(e.target.value))} />
@@ -211,6 +258,8 @@ function toggleLyrics(id) {
 
       <label className='label'  >Artist Name</label>
       <input type="text" className='input Artist'onChange={e => setArtistName(e.target.value)} />
+      <label className='color' >Background Color</label>
+      <input type="text" className='backColor' onChange={e => setColorName(e.target.value)}/>
 
     <label className="label">Lyrics</label>
 <textarea
@@ -226,12 +275,12 @@ function toggleLyrics(id) {
       <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
       
       <button type="submit" className='button'>Create Song Entry</button>
-          <button type = "button" onClick={() => loadLyrics(artistName, songName)}  className='button'>Get Lyrics</button>
+          <button type = "button" onClick={() => {loadLyrics(artistName, songName)}}  className='button'>Get Lyrics</button>
+
 
     </form>
    
 
-    <button className='getEntries' onClick={() => window.location.reload()}> get Entries</button>
     </div>
 
    <div className="entry-list">
@@ -248,12 +297,19 @@ const visible = visibleLyrics[entry._id] === true;
      
 
       return (
+        
         <div key={entry._id} className="entry">
+           <strong>Date:</strong>   {new Date(entry.createdAt).toLocaleString()}<br/>
           <strong>Song:</strong>   {entry.song}<br/>
-          <strong>Artist:</strong> {entry.artist}<br/>
+          <strong>Artist:</strong> {entry.artist}<br/> 
+          <strong> Background Color:</strong> {entry.colorName} <br/>
+
+          
+         
+
           <strong>Journal:</strong>
           <div className="journaling">{entry.journal}</div><br/>
-          <strong>Date:</strong>   {new Date(entry.createdAt).toLocaleString()}<br/>
+         
 
           <button
             type="button"
@@ -263,8 +319,10 @@ const visible = visibleLyrics[entry._id] === true;
            
             
           >
+        
             Show/Hide Lyrics
           </button>
+          <button style={{ backgroundColor: entry.color }} type = "button"  onClick={() => setColor(entry.color)}> Change Color </button>
           <button
             type="button"
             className="deleteButton"
@@ -312,10 +370,11 @@ const visible = visibleLyrics[entry._id] === true;
 <div className='lyricsContainer'>
 <pre className='lyrics'>{lyrics}</pre>
 </div>
+</div>
 
-
-    </>
+    
   )
+  
 }
 
 
