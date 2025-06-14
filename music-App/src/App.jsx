@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 
+
 import './App.css'
 function extractYouTubeId(url) {
   const match = url.match(/(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([^&\n?#]+)/);
@@ -12,8 +13,15 @@ function extractYouTubeId(url) {
 function App() {
 
   // const [youtubeInput, setYoutubeInput] = useState('');
-  const [videoId, setVideoId] = useState(null);
-  const [lyrics, setLyrics] = useState(null);
+  const [videoId, setVideoId] = useState("");
+  const [lyrics, setLyrics] = useState("");
+  const [songName,   setSongName]   = useState('');
+const [artistName, setArtistName] = useState('');
+const [allVideos, setAllVideos] = useState([]);
+
+const [customLyrics, setCustomLyrics] = useState('False');
+const [visibleLyrics, setVisibleLyrics] = useState({});
+
 
     const handleYoutube= async (e) => {
     e.preventDefault();
@@ -31,24 +39,74 @@ function App() {
   
   }
 
-   const loadLyrics = async (artist,song) => {
+  // assume at the top of your component you have:
+// const [visibleLyrics, setVisibleLyrics] = useState({});
+
+function toggleLyrics(id) {
+  setVisibleLyrics(function(prev) {
+    var newVisible = Object.assign({}, prev);
+
     
-    try {
-      const response = await fetch(
-        `https://api.lyrics.ovh/v1/${artist}/${song}`
-      );
-      const data = await response.json();
-      if (data.lyrics) {
-        setLyrics(data.lyrics);
-        console.log('Lyrics:', data.lyrics);
-      } else {
-        setError('Lyrics not found');
-      }
-    } catch (e) {
-      console.error(e);
-      setError('Error fetching lyrics');
+    if (newVisible[id]) {
+      newVisible[id] = false;
+    } else {
+      newVisible[id] = true;
     }
-  };
+
+    
+    return newVisible;
+  });
+}
+
+
+  async function loadLyrics(artist, song) {
+  try {
+      const apiUrl   = `https://api.vagalume.com.br/v1/lyrics/`
+                   + `${encodeURIComponent(artist)}/`
+                   + `${encodeURIComponent(song)}`;
+  const proxyUrl = `https://corsproxy.io/?` 
+                   + `url=${encodeURIComponent(apiUrl)}`;
+
+    const res  = await fetch(proxyUrl
+    );
+    const json = await res.json();
+    // { artist: "...", song: "...", lyrics: "Full lyric text..." }
+    if (json.lyrics) {
+      setLyrics(json.lyrics);
+    } else {
+      setLyrics('No lyrics found for this song.');
+    }
+  } catch (err) {
+    console.error('Vagalume error', err);
+    setLyrics('Error fetching lyrics. Please try again later.');
+  }
+}
+
+//    const loadLyrics = async (artist,song) => {
+    
+//     try {
+//       const response = await fetch(
+//         `https://www.theaudiodb.com/api/v1/json/2/searchtrack.php?s=${encodeURIComponent(artist)}&t=${encodeURIComponent(song)}`
+//       );
+//       const data = await response.json();
+//       const fetched = data.track?.[0]?.strLyrics;
+//       if (fetched) {
+// +       setLyrics(fetched);
+// +       console.log('🎵 Lyrics:', fetched)
+//       }
+//     else {
+//         // setError('Lyrics not found');
+//         customLyrics === 'False' ? setCustomLyrics('True') : setCustomLyrics('False');
+//         console.log(data.track?.[0]?.strLyrics);
+//         setLyrics('No lyrics found for this song.');
+//       }
+//     } catch (e) {
+//       console.error(e);
+//       customLyrics === 'False' ? setCustomLyrics('True') : setCustomLyrics('False');
+//         setLyrics('No lyrics found for this song.');
+//       setError('Error fetching lyrics');
+//     }
+//   };
 
 
 
@@ -98,7 +156,8 @@ function App() {
   const youtube = e.target[0].value;
   const song = e.target[1].value;
   const artist = e.target[2].value;
-  const journal = e.target[3].value;
+  const journal = e.target[4].value;
+  const ahhLyrics = e.target[3].value;
   
 
 
@@ -109,7 +168,8 @@ function App() {
       journal: journal,
       createdAt: new Date(),
       email: user?.email,
-      youtube: youtube
+      youtube: youtube,
+      lyrics : ahhLyrics
     };
 
 
@@ -146,42 +206,92 @@ function App() {
     <form className='form' onSubmit={songEntry}>
       <label className='label'>YouTube Link </label>
       <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" onChange={e => setVideoId(extractYouTubeId(e.target.value))} />
-      <label className='label'>Song Name</label>
-      <input type="text" className='inputSong' />
+      <label className='label' >Song Name</label>
+      <input type="text" className='inputSong' onChange={e => setSongName(e.target.value)}/>
 
-      <label className='label'>Artist Name</label>
-      <input type="text" className='input Artist' />
+      <label className='label'  >Artist Name</label>
+      <input type="text" className='input Artist'onChange={e => setArtistName(e.target.value)} />
+
+    <label className="label">Lyrics</label>
+<textarea
+  className="Lyrics"
+  rows={6}
+  value={lyrics}
+  onChange={e => setLyrics(e.target.value)}
+  placeholder="Lyrics will appear here…"
+/>
+
       
       <label className='label'> Journal Thoughts</label>
       <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
+      
       <button type="submit" className='button'>Create Song Entry</button>
-    </form>
+          <button type = "button" onClick={() => loadLyrics(artistName, songName)}  className='button'>Get Lyrics</button>
 
+    </form>
    
 
     <button className='getEntries' onClick={() => window.location.reload()}> get Entries</button>
     </div>
 
-    <div className="entry-list">
-      {entries.length === 0 ? (
-        <p>No entries yet.</p>
-      ) : (
-        [...entries].reverse().map((entry) => (
-          <div key={entry._id} className="entry">
-            <strong>Song:</strong> {entry.song} <br />
-            <strong>Artist:</strong> {entry.artist} <br />
-            <strong >Journal:</strong> <div className='journaling'>{entry.journal} </div><br />
-            <strong>Date:</strong> {new Date(entry.createdAt).toLocaleString()}<br />
-            <button className='changeToMusic' onClick={() => (setVideoId(extractYouTubeId(entry.youtube)),loadLyrics(entry.artist,entry.song))}>video and lyrics</button>
-          <button className='deleteButton' onClick={() => deleteEntry(entry._id)}>Delete</button>
+   <div className="entry-list">
+  {entries.length === 0 ? (
+    <p>No entries yet.</p>
+  ) : (
+    [...entries].reverse().map(entry => {
+     
+      const vid = extractYouTubeId(entry.youtube);
+      const ahh = entry.lyrics || 'No lyrics available';
+  
+const visible = visibleLyrics[entry._id] === true;
 
+     
 
+      return (
+        <div key={entry._id} className="entry">
+          <strong>Song:</strong>   {entry.song}<br/>
+          <strong>Artist:</strong> {entry.artist}<br/>
+          <strong>Journal:</strong>
+          <div className="journaling">{entry.journal}</div><br/>
+          <strong>Date:</strong>   {new Date(entry.createdAt).toLocaleString()}<br/>
+
+          <button
+            type="button"
+            className="changeToMusic"
+            onClick={() => toggleLyrics(entry._id)}
             
-            <hr />
-          </div>
-        ))
-      )}
-    </div>
+           
+            
+          >
+            Show/Hide Lyrics
+          </button>
+          <button
+            type="button"
+            className="deleteButton"
+            onClick={() => deleteEntry(entry._id)}
+          >
+            Delete
+          </button>
+
+          {visible&&vid && (
+            <iframe
+              className="ahhhh"
+              width="25%"
+              height="25%"
+              src={`https://www.youtube-nocookie.com/embed/${vid}`}
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          )}
+
+          {visible && <pre className="lyricsAHHH" >{ahh}</pre>}
+          <hr/>
+        </div>
+      );
+    })
+  )}
+</div>
+
 
      {/* <form className='youtube' onSubmit={handleYoutube}>
       <label className='label'>YouTube Video ID</label>

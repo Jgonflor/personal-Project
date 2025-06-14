@@ -38,6 +38,15 @@
     width: 40vw;
   
 }
+
+
+
+.Lyrics {
+  overflow-y: scroll; 
+    height:20vh;
+    width: 40vw;
+  
+}
 .getEntrie{
   position: relative;
 }
@@ -59,7 +68,7 @@
   display:flex;
   overflow-y: scroll;
   height: 20vh;
-  width: 27.5vw;
+  width: 25vw;
 }
 
 .youtube
@@ -70,6 +79,13 @@
 .video {
   width: 40vw;
   height: 40vh;
+  border: none;
+}
+
+.ahhhh {
+  width: 15vw;
+  height: 30vh;
+  align-items: center;
   border: none;
 }
 .lyricsContainer
@@ -85,4 +101,10 @@
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+}
+
+.lyricsAHHH{
+  overflow-y: scroll;
+  height: 20vh;
+  width: 15vw;
 }
