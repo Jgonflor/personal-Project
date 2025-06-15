@@ -148,10 +148,12 @@ async function loadLyrics(artist, song) {
   const [entries, setEntries] = useState([]);
   const deleteEntry = async (id) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/journal`
-      , {
-        method: 'DELETE'
-      });
+      
+const res = await fetch(
+  `${import.meta.env.VITE_API_URL}/api/journal/${id}`,
+  { method: 'DELETE' }
+);
+
       const json = await res.json();
       if (json.success) {
         setEntries((prev) => prev.filter((e) => e._id !== id));
