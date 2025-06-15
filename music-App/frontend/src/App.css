@@ -1,24 +1,35 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(1rem, 2vw, 2rem);
+  padding: 2rem;
   text-align: center;
+}
+
+.color-picker-wrapper {
+  --rfc-saturation-width: clamp(120px, 20vw, 280px);
+  --rfc-saturation-height: clamp(120px, 20vw, 280px);
+
+  --rfc-hue-height: clamp(8px, 1.5vw, 16px);
+
+  --rfc-pointer-size: clamp(12px, 1.2vw, 18px);
+
+  width: clamp(120px, 20vw, 280px);
 }
 
 .header {
   position: absolute;
   top: 0vh;
   left: 0;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  margin-bottom: clamp(1rem, 2vh, 2rem);
+  font-size: 2rem;
+  margin-bottom: 2rem;
   /* color:  #FFE6AF */
 }
 .subheader {
   position: absolute;
   top: 5vh;
   left: 0;
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  margin-bottom: clamp(1rem, 2vh, 2rem);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
   /* color: #FFE6AF */
 }
 
@@ -26,8 +37,8 @@
   position: absolute;
   top: 0vh;
   right: 7.5vw;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: clamp(1rem, 2vh, 2rem);
+  font-size: 2rem;
+  margin-bottom: 2rem;
   text-decoration: underline;
   /* color: #FFE6AF */
 }
@@ -58,8 +69,8 @@
   position: absolute;
   top: 7.5vh;
   right: 0vw;
-  font-size: clamp(0.875rem, 1.5vw, 1.25rem);
-  margin-bottom: clamp(1rem, 10vh, 2rem);
+  font-size: 1rem;
+  margin-bottom: 10rem;
   width: 28vw;
   /* color: #FFE6AF */
   
@@ -68,8 +79,8 @@
   position: absolute;
   top: 5vh;
   left: 0;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: clamp(1rem, 2vh, 2rem);
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
 .journaling
@@ -82,22 +93,22 @@
 
 .youtube
 {
-  margin-top:  clamp(1rem, 10vh, 4rem);
+  margin-top: 10vh;
 }
 
 .video {
   position: absolute;
   top: 50vh;
   left: 0;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: clamp(1rem, 2vh, 2rem);
+  font-size: 2rem;
+  margin-bottom: 2rem;
   width: 20vw;
   height: 40vh;
   border: none;
 }
 
 .ahhhh {
-  margin-top: clamp(1rem, 2vh, 2rem);
+  margin-top: 2vh;
   width: 28vw;
   height: 30vh;
   align-items: center;
@@ -115,7 +126,8 @@
 {
   display: flex;
   flex-direction: column;
-  margin-top: clamp(1rem, 2vh, 2rem);}
+  margin-top: 2rem;
+}
 
 .lyricsAHHH{
   overflow-y: scroll;

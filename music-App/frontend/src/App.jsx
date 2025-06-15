@@ -7,7 +7,9 @@ import { HexColorPicker } from "react-colorful";
 
 
 const ColorWheel = ({ color, setColor }) => {
-  return <HexColorPicker color={color} onChange={setColor} />;
+  return <div className="color-picker-wrapper">
+  <HexColorPicker color={color} onChange={setColor} />
+</div>
 };
 
 function getOppositeColor(hex) {
