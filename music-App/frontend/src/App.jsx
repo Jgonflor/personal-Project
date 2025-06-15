@@ -170,21 +170,30 @@ async function loadLyrics(artist, song) {
   
 
   useEffect(() => {
-    if (!isAuthenticated) return;  
+    console.log("🔍 fetchEntries effect running…", {
+      isAuthenticated,
+      userSub: user?.sub,
+      VITE_API_URL: import.meta.env.VITE_API_URL
+    });
+    if (!isAuthenticated) return;
+  
     const fetchEntries = async () => {
       try {
         const url = new URL(`${import.meta.env.VITE_API_URL}/api/journal`);
-        url.searchParams.set('userId', user.sub);
-       const response = await fetch (url.toString())
-       ;
-        const data = await response.json();
+        url.searchParams.set("userId", user.sub);
+        console.log("👉 about to GET", url.toString());
+        const res = await fetch(url.toString());
+        console.log("⤵️  raw response", res);
+        const data = await res.json();
+        console.log("📦  parsed JSON", data);
         setEntries(data);
-      } catch (error) {
-        console.error('Error fetching entries:', error);
+      } catch (err) {
+        console.error("Error fetching entries:", err);
       }
     };
+  
     fetchEntries();
-  }, []);
+  }, [isAuthenticated, user.sub]);
  
 
   
