@@ -174,7 +174,7 @@ async function loadLyrics(artist, song) {
     }
   }, [isLoading, isAuthenticated, loginWithRedirect]);
 
-  const [entries, setEntries] = useState([]);
+  
 
   useEffect(() => {
     console.log("🔍 fetchEntries effect running…", { isAuthenticated, userId });
