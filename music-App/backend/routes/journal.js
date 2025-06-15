@@ -14,8 +14,12 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
+  const { userId } = req.query
+  if (!userId) {
+    return res.status(400).json({ error: 'userId is required' })
+  }
   try {
-    const entries = await getJournalEntries()
+    const entries = await getJournalEntries(userId)
     res.status(200).json(entries)
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -23,9 +27,13 @@ router.get('/', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params
+  const { id }     = req.params
+  const { userId } = req.query
+  if (!userId) {
+    return res.status(400).json({ success: false, error: 'userId is required' })
+  }
   try {
-    const result = await deleteJournalEntry(id)
+    const result = await deleteJournalEntry(id,userId)
     if (result) {
       res.status(200).json({ success: true })
     } else {

@@ -148,11 +148,10 @@ async function loadLyrics(artist, song) {
   const [entries, setEntries] = useState([]);
   const deleteEntry = async (id) => {
     try {
-      
-const res = await fetch(
-  `${import.meta.env.VITE_API_URL}/api/journal/${id}`,
-  { method: 'DELETE' }
-);
+      const url = new URL(`${import.meta.env.VITE_API_URL}/api/journal/${id}`);
+      url.searchParams.set('userId', user.sub);
+  
+      const res = await fetch(url.toString(), { method: 'DELETE' });
 
       const json = await res.json();
       if (json.success) {
@@ -171,9 +170,12 @@ const res = await fetch(
   
 
   useEffect(() => {
+    if (!isAuthenticated) return;  
     const fetchEntries = async () => {
       try {
-       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/journal`)
+        const url = new URL(`${import.meta.env.VITE_API_URL}/api/journal`);
+        url.searchParams.set('userId', user.sub);
+       const response = await fetch (url.toString())
        ;
         const data = await response.json();
         setEntries(data);
@@ -203,7 +205,7 @@ const res = await fetch(
       artist: artist,
       journal: journal,
       createdAt: new Date(),
-      email: user?.email,
+      userId: user.sub,
       youtube: youtube,
       lyrics : ahhLyrics,
       colorName: colorName,
