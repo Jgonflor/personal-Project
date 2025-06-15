@@ -168,32 +168,44 @@ async function loadLyrics(artist, song) {
     document.body.style.background = color;
   }, [color]);
   
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      loginWithRedirect();
+    }
+  }, [isLoading, isAuthenticated, loginWithRedirect]);
+
+  const [entries, setEntries] = useState([]);
 
   useEffect(() => {
-    console.log("🔍 fetchEntries effect running…", {
-      isAuthenticated,
-      userSub: user?.sub,
-      VITE_API_URL: import.meta.env.VITE_API_URL
-    });
-    if (!isAuthenticated) return;
-  
+    console.log("🔍 fetchEntries effect running…", { isAuthenticated, userId });
+    // only run once we truly have a logged-in user
+    if (!isAuthenticated || !userId) return;
+
     const fetchEntries = async () => {
       try {
+        // build the URL with our userId query param
         const url = new URL(`${import.meta.env.VITE_API_URL}/api/journal`);
-        url.searchParams.set("userId", user.sub);
+        url.searchParams.set("userId", userId);
         console.log("👉 about to GET", url.toString());
+
         const res = await fetch(url.toString());
         console.log("⤵️  raw response", res);
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
         const data = await res.json();
         console.log("📦  parsed JSON", data);
+
         setEntries(data);
       } catch (err) {
         console.error("Error fetching entries:", err);
       }
     };
-  
+
     fetchEntries();
-  }, [isAuthenticated, user.sub]);
+  }, [isAuthenticated, userId]);
  
 
   
