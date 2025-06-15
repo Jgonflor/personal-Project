@@ -99,7 +99,7 @@ async function loadLyrics(artist, song) {
     if (json.lyrics) {
       setLyrics(json.lyrics);
     } else {
-      setLyrics('No lyrics found for this song.');
+      setLyrics('No lyrics found for this song. Please input your own');
     }
   } catch (err) {
     console.error('Lyrics.ovh error:', err);
