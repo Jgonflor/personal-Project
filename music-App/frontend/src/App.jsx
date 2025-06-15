@@ -108,33 +108,6 @@ async function loadLyrics(artist, song) {
 }
 
 
-//    const loadLyrics = async (artist,song) => {
-    
-//     try {
-//       const response = await fetch(
-//         `https://www.theaudiodb.com/api/v1/json/2/searchtrack.php?s=${encodeURIComponent(artist)}&t=${encodeURIComponent(song)}`
-//       );
-//       const data = await response.json();
-//       const fetched = data.track?.[0]?.strLyrics;
-//       if (fetched) {
-// +       setLyrics(fetched);
-// +       console.log('🎵 Lyrics:', fetched)
-//       }
-//     else {
-//         // setError('Lyrics not found');
-//         customLyrics === 'False' ? setCustomLyrics('True') : setCustomLyrics('False');
-//         console.log(data.track?.[0]?.strLyrics);
-//         setLyrics('No lyrics found for this song.');
-//       }
-//     } catch (e) {
-//       console.error(e);
-//       customLyrics === 'False' ? setCustomLyrics('True') : setCustomLyrics('False');
-//         setLyrics('No lyrics found for this song.');
-//       setError('Error fetching lyrics');
-//     }
-//   };
-
-
 
   
   const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
@@ -178,26 +151,20 @@ async function loadLyrics(artist, song) {
   
 
   useEffect(() => {
-    console.log("🔍 fetchEntries effect running…", { isAuthenticated, userId });
-    // only run once we truly have a logged-in user
     if (!isAuthenticated || !userId) return;
 
     const fetchEntries = async () => {
       try {
-        // build the URL with our userId query param
         const url = new URL(`${import.meta.env.VITE_API_URL}/api/journal`);
         url.searchParams.set("userId", userId);
-        console.log("👉 about to GET", url.toString());
 
         const res = await fetch(url.toString());
-        console.log("⤵️  raw response", res);
 
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
 
         const data = await res.json();
-        console.log("📦  parsed JSON", data);
 
         setEntries(data);
       } catch (err) {
