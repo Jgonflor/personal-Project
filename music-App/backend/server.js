@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import journalRouter from './backend/routes/journal.js';
-import { getDatabase } from './backend/models/mongoDB.js'; // ← path fixed
-
+import journalRouter from './routes/journal.js';
+import { getDatabase } from './models/mongoDB.js'; // ← path fixed
+console.log("🚀 cwd:", process.cwd());
+import path from 'path';
+console.log("📂 Directory:", path.resolve());
 dotenv.config();
 
 const app = express();
