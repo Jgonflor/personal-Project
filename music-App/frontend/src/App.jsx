@@ -138,6 +138,7 @@ async function loadLyrics(artist, song) {
 
   
   const { loginWithRedirect, isAuthenticated, isLoading, user } = useAuth0();
+  const userId = user?.sub;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
