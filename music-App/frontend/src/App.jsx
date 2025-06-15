@@ -363,7 +363,6 @@ const visible = visibleLyrics[entry._id] === true;
   ></iframe>
 )}
 <div className='lyricsContainer'>
-<pre className='lyrics'>{lyrics}</pre>
 </div>
 </div>
 
