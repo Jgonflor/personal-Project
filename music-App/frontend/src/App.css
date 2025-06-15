@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2vh;
+  padding: clamp(1rem, 2vw, 2rem);
   text-align: center;
 }
 
@@ -9,16 +9,16 @@
   position: absolute;
   top: 0vh;
   left: 0;
-  font-size: 2vh;
-  margin-bottom: 2vh;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  margin-bottom: clamp(1rem, 2vh, 2rem);
   /* color:  #FFE6AF */
 }
 .subheader {
   position: absolute;
   top: 5vh;
   left: 0;
-  font-size: 1.5vh;
-  margin-bottom: 2vh;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  margin-bottom: clamp(1rem, 2vh, 2rem);
   /* color: #FFE6AF */
 }
 
@@ -26,8 +26,8 @@
   position: absolute;
   top: 0vh;
   right: 7.5vw;
-  font-size: 2vh;
-  margin-bottom: 2vh;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: clamp(1rem, 2vh, 2rem);
   text-decoration: underline;
   /* color: #FFE6AF */
 }
@@ -58,8 +58,8 @@
   position: absolute;
   top: 7.5vh;
   right: 0vw;
-  font-size: 1vh;
-  margin-bottom: 10vh;
+  font-size: clamp(0.875rem, 1.5vw, 1.25rem);
+  margin-bottom: clamp(1rem, 10vh, 2rem);
   width: 28vw;
   /* color: #FFE6AF */
   
@@ -68,8 +68,8 @@
   position: absolute;
   top: 5vh;
   left: 0;
-  font-size: 2vh;
-  margin-bottom: 2vh;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: clamp(1rem, 2vh, 2rem);
 }
 
 .journaling
@@ -82,22 +82,22 @@
 
 .youtube
 {
-  margin-top: 10vh;
+  margin-top:  clamp(1rem, 10vh, 4rem);
 }
 
 .video {
   position: absolute;
   top: 50vh;
   left: 0;
-  font-size: 2vh;
-  margin-bottom: 2vh;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: clamp(1rem, 2vh, 2rem);
   width: 20vw;
   height: 40vh;
   border: none;
 }
 
 .ahhhh {
-  margin-top: 2vh;
+  margin-top: clamp(1rem, 2vh, 2rem);
   width: 28vw;
   height: 30vh;
   align-items: center;
@@ -115,8 +115,7 @@
 {
   display: flex;
   flex-direction: column;
-  margin-top: 2vh;
-}
+  margin-top: clamp(1rem, 2vh, 2rem);}
 
 .lyricsAHHH{
   overflow-y: scroll;
