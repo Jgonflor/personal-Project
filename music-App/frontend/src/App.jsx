@@ -234,7 +234,7 @@ async function loadLyrics(artist, song) {
       
     </h1>
     <h2 className='subheader' >Here is a beta version of how it may look like</h2>
-     <h1 className = 'MONGO'> Mongo Test Entries </h1>
+     <h1 className = 'MONGO'> Your Entries </h1>
      <div>
 
      <div className='yourComponent'> 
