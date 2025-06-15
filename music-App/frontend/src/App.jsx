@@ -148,7 +148,8 @@ async function loadLyrics(artist, song) {
   const [entries, setEntries] = useState([]);
   const deleteEntry = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/journal/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/journal`
+      , {
         method: 'DELETE'
       });
       const json = await res.json();
@@ -170,7 +171,8 @@ async function loadLyrics(artist, song) {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-       const response = await fetch('http://localhost:3001/api/journal');
+       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/journal`)
+       ;
         const data = await response.json();
         setEntries(data);
       } catch (error) {
@@ -208,7 +210,7 @@ async function loadLyrics(artist, song) {
 
 
     try {
-      const response = await fetch('http://localhost:3001/api/journal', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/journal`      , {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry),
