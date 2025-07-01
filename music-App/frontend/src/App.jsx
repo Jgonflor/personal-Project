@@ -6,11 +6,7 @@ import { HexColorPicker } from "react-colorful";
 
 
 
-const ColorWheel = ({ color, setColor }) => {
-  return <div className="color-picker-wrapper">
-    <HexColorPicker color={color} onChange={setColor} />
-  </div>
-};
+
 
 function getOppositeColor(hex) {
   hex = hex.replace('#', '');
@@ -262,12 +258,30 @@ function App() {
 
 
       </div>
-      <div className='combine-component'>
+      <div
+        className={
+          'combine-component' +
+          (showJournals ? '' : ' noJournals') +
+          (showEntry ? '' : ' noEntry')
+        }>
 
 
         {showEntry && (
           <>
-            <ColorWheel color={color} setColor={setColor} />
+            <div className="color-picker-wrapper">
+              <HexColorPicker color={color} onChange={setColor} ></HexColorPicker>
+              {videoId && (
+                <iframe
+                  className='video'
+                  width="50%"
+                  height="50%"
+                  src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
+
 
 
 
@@ -380,16 +394,7 @@ function App() {
 
 
 
-      {videoId && (
-        <iframe
-          className='video'
-          width="50%"
-          height="50%"
-          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        ></iframe>
-      )}
+
       <div className='lyricsContainer'>
       </div>
     </div>
