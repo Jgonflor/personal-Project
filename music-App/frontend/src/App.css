@@ -42,7 +42,7 @@
 .combine-component{
   display: flex;
   align-items: flex-start;
-  gap: 5vw
+  gap: 5vw;
   
 }
 .entry-list {
