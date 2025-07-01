@@ -374,8 +374,8 @@ function App() {
                   {visible && vid && (
                     <iframe
                       className="ahhhh"
-                      width="25%"
-                      height="25%"
+                      width="100%"
+                      height="100%"
                       src={`https://www.youtube-nocookie.com/embed/${vid}`}
                       allow="autoplay; encrypted-media"
                       allowFullScreen
