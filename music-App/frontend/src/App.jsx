@@ -34,6 +34,7 @@ function extractYouTubeId(url) {
 
 function App() {
 
+
   // const [youtubeInput, setYoutubeInput] = useState('');
   const [color, setColor] = useState(() => {
     return localStorage.getItem("currentColor") || "#aabbcc";
@@ -47,7 +48,8 @@ function App() {
   const [customLyrics, setCustomLyrics] = useState('False');
   const [visibleLyrics, setVisibleLyrics] = useState({});
   const [colorName, setColorName] = useState("");
-
+  const [showJournals, setShowJournals] = useState(true);
+  const [showEntry, setShowEntry] = useState(true);
 
   const handleYoutube = async (e) => {
     e.preventDefault();
@@ -90,6 +92,27 @@ function App() {
 
       return newVisible;
     });
+  }
+
+  const toggleShowEntry = () => {
+    if (showEntry === true) {
+      setShowEntry(false)
+    }
+    else {
+      setShowEntry(true)
+    }
+    // forceUpdate();
+  }
+
+  const toggleShowJournals = () => {
+    if (showJournals === true) {
+      setShowJournals(false);
+    }
+    else (
+      setShowJournals(true)
+    )
+    // forceUpdate( );
+
   }
 
   async function loadLyrics(artist, song) {
@@ -231,58 +254,62 @@ function App() {
 
       <title>musicApp</title>
       <div className='setNames'>
-        <h1 className="header">
+        <h1 className="header" onClick={toggleShowEntry}>
           MusicPlayer v1.1
 
         </h1>
-        <h1 className='MONGO'> Your Entries </h1>
+        <h1 className='MONGO' onClick={toggleShowJournals}> Your Entries </h1>
 
 
       </div>
       <div className='combine-component'>
 
 
-        <ColorWheel color={color} setColor={setColor} />
+        {showEntry && (
+          <>
+            <ColorWheel color={color} setColor={setColor} />
 
 
 
 
 
-        <form className='form' onSubmit={songEntry}>
-          <label className='label'>YouTube Link </label>
-          <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" onChange={e => setVideoId(extractYouTubeId(e.target.value))} />
-          <label className='label' >Song Name</label>
-          <input type="text" className='inputSong' onChange={e => setSongName(e.target.value)} />
+            <form className='form' onSubmit={songEntry}>
+              <label className='label'>YouTube Link </label>
+              <input type="text" className='inputYoutube' name="youtube" placeholder="Enter YouTube video link" onChange={e => setVideoId(extractYouTubeId(e.target.value))} />
+              <label className='label' >Song Name</label>
+              <input type="text" className='inputSong' onChange={e => setSongName(e.target.value)} />
 
-          <label className='label'  >Artist Name</label>
-          <input type="text" className='input Artist' onChange={e => setArtistName(e.target.value)} />
-          <label className='color' >Background Color</label>
-          <input type="text" className='backColor' onChange={e => setColorName(e.target.value)} />
-
-
-          <label className="label">Lyrics</label>
-          <textarea
-            className="Lyrics"
-            rows={6}
-            value={lyrics}
-            onChange={e => setLyrics(e.target.value)}
-            placeholder="Lyrics will appear here…"
-          />
+              <label className='label'  >Artist Name</label>
+              <input type="text" className='input Artist' onChange={e => setArtistName(e.target.value)} />
+              <label className='color' >Background Color</label>
+              <input type="text" className='backColor' onChange={e => setColorName(e.target.value)} />
 
 
-          <label className='label'> Journal Thoughts</label>
-          <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
-
-          <button type="submit" className='button'>Create Song Entry</button>
-          <button type="button" onClick={() => { loadLyrics(artistName, songName) }} className='button'>Get Lyrics</button>
-
-
-        </form>
-
-
+              <label className="label">Lyrics</label>
+              <textarea
+                className="Lyrics"
+                rows={6}
+                value={lyrics}
+                onChange={e => setLyrics(e.target.value)}
+                placeholder="Lyrics will appear here…"
+              />
 
 
-        <div className="entry-list">
+              <label className='label'> Journal Thoughts</label>
+              <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
+
+              <button type="submit" className='button'>Create Song Entry</button>
+              <button type="button" onClick={() => { loadLyrics(artistName, songName) }} className='button'>Get Lyrics</button>
+
+
+            </form>
+          </>)
+        }
+
+
+
+
+        {showJournals && (<div className="entry-list">
           {entries.length === 0 ? (
             <p>No entries yet.</p>
           ) : (
@@ -347,7 +374,7 @@ function App() {
               );
             })
           )}
-        </div>
+        </div>)}
       </div>
 
 

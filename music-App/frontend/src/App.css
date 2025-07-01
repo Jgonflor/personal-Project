@@ -13,6 +13,7 @@
 
   display: flex;
   align-items: flex-start;
+  cursor: pointer;
 
   justify-content: space-between;
   font-size: clamp(4px, 10px, 10px);
@@ -45,6 +46,7 @@
   gap: 5vw;
   
 }
+
 .entry-list {
   list-style-type: none;
   overflow-y: scroll; 
@@ -55,7 +57,7 @@
   right: 0vw;
   font-size: 1.25rem;
   margin-bottom: 11rem;
-  width: 35vw;
+  width: 45vw;
   
 }
 
@@ -107,7 +109,7 @@
 .form {
   display: flex;           
   flex-direction: column;  
-  max-width: 40vw;         
+  max-width: 70vw;         
   width: 100%;             
   box-sizing: border-box
 }
@@ -118,7 +120,7 @@
   overflow-x: hidden;
 
   height: 20vh;
-  width: 28vw;
+  /* width: 28vw; */
   white-space: pre-wrap;
   word-wrap: break-word;
   
