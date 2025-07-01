@@ -18,7 +18,7 @@
   font-size: clamp(4px, 10px, 10px);
   text-decoration: underline;
   margin-right: clamp(1rem, 10vw, 10rem);
-  margin-bottom: 2rem;
+
 }
 
 
@@ -109,7 +109,7 @@
   flex-direction: column;  
   max-width: 40vw;         
   width: 100%;             
-  box-sizing: border-box;
+  box-sizing: border-box
 }
 
 
