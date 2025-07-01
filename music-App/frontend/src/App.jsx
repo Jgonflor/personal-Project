@@ -251,10 +251,10 @@ function App() {
       <title>musicApp</title>
       <div className='setNames'>
         <h1 className="header" onClick={toggleShowEntry}>
-          MusicPlayer v1.1
+          MusicPlayer v1.1 Entry Box {showEntry ? 'Hide ' : ' Show '}
 
         </h1>
-        <h1 className='MONGO' onClick={toggleShowJournals}> Your Entries </h1>
+        <h1 className='MONGO' onClick={toggleShowJournals}> {showJournals ? 'Hide ' : ' Show '}Entries </h1>
 
 
       </div>
