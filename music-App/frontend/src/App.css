@@ -1,47 +1,27 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width:100%;
+  
 }
 
-.color-picker-wrapper {
-  --rfc-saturation-width: clamp(120px, 20vw, 280px);
-  --rfc-saturation-height: clamp(120px, 20vw, 280px);
-
-  --rfc-hue-height: clamp(8px, 1.5vw, 16px);
-
-  --rfc-pointer-size: clamp(12px, 1.2vw, 18px);
-
-  width: clamp(120px, 20vw, 280px);
+.everything
+{
+  width: 100%;
 }
 
-.header {
-  position: absolute;
-  top: 0vh;
-  left: 0;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  /* color:  #FFE6AF */
-}
-.subheader {
-  position: absolute;
-  top: 5vh;
-  left: 0;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  /* color: #FFE6AF */
-}
+.setNames {  
 
-.MONGO {
-  position: absolute;
-  top: 0vh;
-  right: 7.5vw;
-  font-size: 2rem;
-  margin-bottom: 2rem;
+
+  display: flex;
+  align-items: flex-start;
+
+  justify-content: space-between;
+  font-size: clamp(4px, 10px, 10px);
   text-decoration: underline;
-  /* color: #FFE6AF */
+  margin-right: clamp(1rem, 10vw, 10rem);
+  margin-bottom: 2rem;
 }
+
+
 
 .inputJournal {
   overflow-y: scroll; 
@@ -58,34 +38,36 @@
     width: 40vw;
   
 }
-.getEntrie{
-  position: relative;
+
+.combine-component{
+  display: flex;
+  align-items: flex-start;
+  gap: 5vw
+  
 }
 .entry-list {
   list-style-type: none;
   overflow-y: scroll; 
   max-height:90vh;
+
   padding: 0;
-  position: absolute;
-  top: 8vh;
+  top: 13vh;
   right: 0vw;
-  font-size: 1rem;
+  font-size: 1.25rem;
   margin-bottom: 11rem;
-  width: 28vw;
-  /* color: #FFE6AF */
+  width: 35vw;
   
 }
-.yourComponent{
-  position: absolute;
-  top: 5vh;
-  left: 0;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
 
+.react-colorful {
+  margin-top: 0vh;
+  margin-left: 0vw;
+  max-width: 20vw;
+  width: auto;
+}
 .journaling
 {
-  display:flex;
+  display:center;
   overflow-y: auto;
   max-height: 20vh;
   
@@ -122,12 +104,14 @@
     height:25vh;
 }
 
-.form
-{
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
+.form {
+  display: flex;           
+  flex-direction: column;  
+  max-width: 40vw;         
+  width: 100%;             
+  box-sizing: border-box;
 }
+
 
 .lyricsAHHH{
   overflow-y: scroll;
@@ -141,3 +125,11 @@
   
 
 }
+.subheader {
+  position: relative;
+  max-width: 35vw;
+  margin: 5vh 0 2rem 0;
+  text-align: left;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+}
+
