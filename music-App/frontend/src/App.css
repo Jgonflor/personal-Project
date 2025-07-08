@@ -22,12 +22,21 @@
 
 }
 
+.header:hover
+{
+  background-color: navajowhite;
+  
+}
+
+.MONGO:hover{
+  background-color:navajowhite;
+}
 
 
 .inputJournal {
   overflow-y: scroll; 
     height:20vh;
-    width: 40vw;
+    width: 45vw;
   
 }
 
@@ -36,8 +45,22 @@
 .Lyrics {
   overflow-y: scroll; 
     height:20vh;
-    width: 40vw;
+    width: 45vw;
   
+}
+
+.submitButton{
+  margin-top:3vh;
+  width: 25vw;
+  align-self: center;
+}
+.lyricsButton{
+  width: 25vw;
+  align-self: center;
+}
+.inputYoutube,.inputSong,.inputArtist,.backColor
+{
+  width: 45vw;
 }
 
 .combine-component{
@@ -81,8 +104,14 @@
   font-size: 1.25rem;
   margin-bottom: 11rem;
   width: 45vw;
+  margin-right: 1.5vw;
   
 }
+/* .entry-list.entryColorButton:hover{
+  background-color: blueviolet;
+
+
+} */
 
 .combine-component.noJournals .react-colorful{
   /* max-width: 50%; */
@@ -160,11 +189,15 @@
 .form {
   display: flex;           
   flex-direction: column;  
-  max-width: 70vw;         
+  max-width: 50vw;         
   width: 100%;             
+  align-items: center;
   box-sizing: border-box
 }
-
+.label{
+  font-weight: bold;
+  
+}
 
 .lyricsAHHH{
   overflow-y: scroll;

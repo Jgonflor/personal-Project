@@ -244,7 +244,7 @@ function App() {
 
   return (
 
-    <div className='everything' style={{ background: color, color: textColor }}>
+    <div className='everything' style={{ background: `linear-gradient(to top, black, ${color})`, color: textColor }}>
 
 
 
@@ -294,8 +294,8 @@ function App() {
               <input type="text" className='inputSong' onChange={e => setSongName(e.target.value)} />
 
               <label className='label'  >Artist Name</label>
-              <input type="text" className='input Artist' onChange={e => setArtistName(e.target.value)} />
-              <label className='color' >Background Color</label>
+              <input type="text" className='inputArtist' onChange={e => setArtistName(e.target.value)} />
+              <label className='label' >Background Color</label>
               <input type="text" className='backColor' onChange={e => setColorName(e.target.value)} />
 
 
@@ -312,8 +312,8 @@ function App() {
               <label className='label'> Journal Thoughts</label>
               <textarea className="inputJournal" placeholder="Your thoughts..."></textarea>
 
-              <button type="submit" className='button'>Create Song Entry</button>
-              <button type="button" onClick={() => { loadLyrics(artistName, songName) }} className='button'>Get Lyrics</button>
+              <button type="submit" className='submitButton'>Create Song Entry</button>
+              <button type="button" onClick={() => { loadLyrics(artistName, songName) }} className='lyricsButton'>Get Lyrics</button>
 
 
             </form>
@@ -362,7 +362,7 @@ function App() {
 
                     Show/Hide Lyrics
                   </button>
-                  <button style={{ backgroundColor: entry.color }} type="button" onClick={() => setColor(entry.color)}> Change Color </button>
+                  <button style={{ backgroundColor: entry.color }} type="button" onClick={() => setColor(entry.color)} className="entryColorButton"> Change Color </button>
                   <button
                     type="button"
                     className="deleteButton"
