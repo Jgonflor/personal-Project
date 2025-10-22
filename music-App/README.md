@@ -8,3 +8,5 @@
 - **Symptoms:** 404s or timeouts immediately after a deploy.
 
 Also divided into different folders so the online services have an easier time on running the necessary things they may need.
+
+Here is the link to access it https://newappmusic.netlify.app/
