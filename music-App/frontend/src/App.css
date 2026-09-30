@@ -157,6 +157,7 @@
   width: 15vw;
   height: 20vh;
   border: none;
+  /* box-shadow: 0 0 50px 15px #48abe0; */
 }
 .combine-component.noEntry .entry-list .ahhhh {
   width: 100%;
